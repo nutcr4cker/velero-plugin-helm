@@ -72,8 +72,9 @@ func NewBackupPlugin(f client.Factory, resource string) func(logrus.FieldLogger)
 // AppliesTo returns configmaps/secrets that are deployed and owned by tiller.
 func (p *BackupPlugin) AppliesTo() (velero.ResourceSelector, error) {
 	return velero.ResourceSelector{
-		IncludedResources: []string{p.storage.Name()},
-		LabelSelector:     "OWNER=TILLER",
+		IncludedResources:  []string{p.storage.Name()},
+		ExcludedNamespaces: []string{"calico-system", "default", "heptio-sonobuoy", "istio-operator", "kiali-operator", "kube-node-lease", "kube-public", "kube-system", "kyverno", "metallb-system", "monitoring", "splunk-system", "tigera-operator", "velero", "gatekeeper-system", "istio-system"},
+		LabelSelector:      "OWNER=TILLER",
 	}, nil
 }
 
